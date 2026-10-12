@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#153d35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="บัญชีของฉัน">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>บัญชีของฉัน | รายรับรายจ่าย</title>
+<style>
+:root{--bg:#f3f7f5;--card:#fff;--ink:#172a25;--muted:#64756e;--green:#176b4a;--green2:#dff5e8;--red:#b93e37;--red2:#fde9e7;--line:#e0e9e4;--navy:#153d35}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 14px calc(22px + env(safe-area-inset-bottom));}
+main{max-width:680px;margin:0 auto}.hero{background:linear-gradient(145deg,#153d35,#246b55);color:#fff;border-radius:24px;padding:22px;margin:12px 0 16px;box-shadow:0 10px 28px #163d3518}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:#ffffff20;display:grid;place-items:center;font-size:24px}.sub{color:#c6ddd3;font-size:13px}.hero h1{font-size:21px;margin:0}.balance-label{margin-top:24px;color:#c6ddd3;font-size:13px}.balance{font-size:32px;font-weight:800;margin:5px 0 16px;letter-spacing:-.5px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{border-radius:15px;padding:12px;background:#ffffff15}.stat small{display:block;color:#d4e8df;margin-bottom:6px}.stat strong{font-size:18px}.pos{color:#167347}.neg{color:#c23f38}.hero .pos{color:#a8f0c5}.hero .neg{color:#ffc0b9}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;margin:12px 0}.card h2{font-size:17px;margin:0 0 14px}.field{display:block;font-size:13px;color:var(--muted);margin:11px 0 6px}input,select,button{font:inherit}input,select{width:100%;padding:12px;border:1px solid #d6e2dc;border-radius:12px;background:#fff;color:var(--ink);min-height:45px}input:focus,select:focus{outline:2px solid #9ad9b8;border-color:#4c9c76}.types{display:grid;grid-template-columns:1fr 1fr;gap:8px}.type{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px;font-weight:700}.type.active.income{background:var(--green2);border-color:#65bd8b;color:var(--green)}.type.active.expense{background:var(--red2);border-color:#e8a29d;color:var(--red)}.primary{width:100%;border:0;border-radius:13px;padding:14px;background:var(--green);color:white;font-weight:750;margin-top:14px;min-height:48px}.secondary{border:1px solid var(--line);background:white;border-radius:11px;padding:9px 12px;color:var(--ink)}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.muted{color:var(--muted);font-size:12px}.list{display:flex;flex-direction:column;gap:9px}.item{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--line);border-radius:14px}.bubble{width:40px;height:40px;flex:0 0 40px;border-radius:13px;display:grid;place-items:center;font-size:20px}.bubble.income{background:var(--green2)}.bubble.expense{background:var(--red2)}.item-main{flex:1;min-width:0}.item-main strong{display:block;overflow-wrap:anywhere}.amount{font-weight:800;white-space:nowrap}.delete{border:0;background:transparent;color:#9a6b67;font-size:12px;padding:5px}.day-row{border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:8px;background:white}.empty{text-align:center;padding:25px 10px;color:var(--muted);font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1}.foot{font-size:12px;line-height:1.6;color:var(--muted);padding:8px 4px}.month-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.month-box{background:#f6faf8;border-radius:13px;padding:12px}.month-box small{color:var(--muted)}.month-box strong{display:block;margin-top:5px;font-size:17px}@media(min-width:600px){body{padding-top:20px}.hero{padding:26px}.balance{font-size:38px}}
+</style>
+</head>
+<body><main>
+<section class="hero">
+ <div class="brand"><div class="logo">฿</div><div><h1>บัญชีของฉัน</h1><div class="sub">บันทึกรายรับ · รายจ่าย · เงินคงเหลือ</div></div></div>
+ <div class="balance-label">ยอดคงเหลือสะสมถึงวันที่เลือก</div><div class="balance" id="balance">฿0.00</div>
+ <div class="stats"><div class="stat"><small>↙ รายรับวันนี้</small><strong class="pos" id="incomeToday">฿0.00</strong></div><div class="stat"><small>↗ รายจ่ายวันนี้</small><strong class="neg" id="expenseToday">฿0.00</strong></div></div>
+</section>
+<section class="card">
+ <h2>📅 เลือกวันที่และเงินตั้งต้น</h2>
+ <label class="field" for="date">วันที่ต้องการดู</label><input id="date" type="date">
+ <label class="field" for="opening">เงินตั้งต้นก่อนเริ่มบันทึก (บาท)</label><input id="opening" type="number" min="0" step="0.01" inputmode="decimal" value="0">
+ <p class="muted">ใส่เงินที่มีอยู่ก่อนวันแรกที่เริ่มบันทึก ยอดสะสมจะคำนวณจากเงินตั้งต้นและรายการทั้งหมด</p>
+</section>
+<section class="card">
+ <h2>➕ เพิ่มรายการ</h2>
+ <div class="types"><button class="type active income" id="incomeBtn" type="button">＋ รายรับ</button><button class="type expense" id="expenseBtn" type="button">− รายจ่าย</button></div>
+ <label class="field" for="amount">จำนวนเงิน (บาท)</label><input id="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="เช่น 400">
+ <label class="field" for="note">รายละเอียด</label><input id="note" maxlength="120" placeholder="เช่น เงินเดือน ค่าอาหาร ค่าน้ำมัน">
+ <button class="primary" id="save" type="button">บันทึกรายรับ</button>
+</section>
+<section class="card">
+ <div class="row"><h2 style="margin-bottom:0">📒 รายการของวันนี้</h2><span class="muted" id="count">0 รายการ</span></div>
+ <div class="month-grid" style="margin-top:14px"><div class="month-box"><small>รับสุทธิวันนี้</small><strong class="pos" id="netToday">฿0.00</strong></div><div class="month-box"><small>ยอดก่อนวันนี้</small><strong id="priorBalance">฿0.00</strong></div></div>
+ <div class="list" id="todayList" style="margin-top:12px"></div>
+</section>
+<section class="card">
+ <div class="row"><h2 style="margin-bottom:0">🗓️ สรุปตามวัน</h2><button class="secondary" id="monthNow" type="button">เดือนนี้</button></div>
+ <label class="field" for="month">เลือกเดือน</label><input id="month" type="month">
+ <div class="month-grid" style="margin-top:12px"><div class="month-box"><small>รายรับทั้งเดือน</small><strong class="pos" id="monthIncome">฿0.00</strong></div><div class="month-box"><small>รายจ่ายทั้งเดือน</small><strong class="neg" id="monthExpense">฿0.00</strong></div><div class="month-box" style="grid-column:1/-1"><small>เงินสุทธิของเดือน</small><strong id="monthNet">฿0.00</strong></div></div>
+ <div id="days"></div>
+</section>
+<section class="card">
+ <h2>💾 สำรองข้อมูล</h2>
+ <p class="muted">ข้อมูลเก็บไว้ในเบราว์เซอร์บนอุปกรณ์นี้ ควรส่งออกไฟล์สำรองเป็นระยะ หากล้างข้อมูล Safari หรือเปลี่ยนอุปกรณ์ อาจสูญหายได้</p>
+ <div class="actions"><button class="secondary" id="export" type="button">ส่งออกข้อมูลสำรอง</button><button class="secondary" id="importBtn" type="button">นำเข้าข้อมูล</button><input id="importFile" type="file" accept="application/json,.json" hidden></div>
+ <p class="muted" id="storageStatus" aria-live="polite"></p>
+</section>
+<div class="foot">แอปนี้จัดเก็บข้อมูลไว้ในอุปกรณ์ ไม่ได้ส่งไปยังบัญชีออนไลน์โดยอัตโนมัติ ใช้การส่งออกข้อมูลสำรองเป็นประจำ และอย่าลบข้อมูลเว็บไซต์โดยไม่สำรองก่อน</div>
+</main>
+<script>
+const KEY='baansabai-money-v1';
+let entries=[], kind='รายรับ';
+const $=id=>document.getElementById(id);
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const monthISO=()=>todayISO().slice(0,7);
+const fmt=n=>new Intl.NumberFormat('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+const baht=n=>'฿'+fmt(n);
+function load(){try{const saved=JSON.parse(localStorage.getItem(KEY)||'{}');entries=Array.isArray(saved.entries)?saved.entries:[];$('opening').value=saved.opening??'0';}catch(e){entries=[];$('storageStatus').textContent='อ่านข้อมูลเดิมไม่ได้ กรุณานำเข้าไฟล์สำรองหากมี';}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({entries,opening:Number($('opening').value)||0}));$('storageStatus').textContent='บันทึกไว้ในอุปกรณ์นี้แล้ว';}catch(e){$('storageStatus').textContent='บันทึกไม่สำเร็จ กรุณาส่งออกข้อมูลสำรอง';}}
+function sums(list){return list.reduce((a,e)=>{a[e.kind==='รายรับ'?'income':'expense']+=Number(e.amount)||0;return a},{income:0,expense:0})}
+function setKind(k){kind=k;$('incomeBtn').classList.toggle('active',k==='รายรับ');$('expenseBtn').classList.toggle('active',k==='รายจ่าย');$('save').textContent='บันทึก'+k;}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function render(){
+ const date=$('date').value||todayISO(), month=$('month').value||monthISO();
+ const dayList=entries.filter(e=>e.date===date).sort((a,b)=>b.createdAt-a.createdAt), day=sums(dayList);
+ const prior=entries.filter(e=>e.date<date), ps=sums(prior), opening=Number($('opening').value)||0;
+ $('incomeToday').textContent=baht(day.income);$('expenseToday').textContent=baht(day.expense);$('netToday').textContent=baht(day.income-day.expense);
+ $('priorBalance').textContent=baht(opening+ps.income-ps.expense);$('balance').textContent=baht(opening+ps.income-ps.expense+day.income-day.expense);
+ $('count').textContent=dayList.length+' รายการ';
+ $('todayList').innerHTML=dayList.length?dayList.map(e=>`<div class="item"><div class="bubble ${e.kind==='รายรับ'?'income':'expense'}">${e.kind==='รายรับ'?'↙':'↗'}</div><div class="item-main"><strong>${esc(e.note||e.kind)}</strong><span class="muted">${e.kind} · ${e.date}</span></div><div style="text-align:right"><div class="amount ${e.kind==='รายรับ'?'pos':'neg'}">${e.kind==='รายรับ'?'+':'−'}${fmt(e.amount)}</div><button class="delete" data-delete="${e.id}">ลบ</button></div></div>`).join(''):'<div class="empty">วันนี้ยังไม่มีรายการ<br>เพิ่มรายรับหรือรายจ่ายด้านบนได้เลย</div>';
+ const ml=entries.filter(e=>e.date.startsWith(month)), ms=sums(ml);
+ $('monthIncome').textContent=baht(ms.income);$('monthExpense').textContent=baht(ms.expense);$('monthNet').textContent=baht(ms.income-ms.expense);
+ const dates=[...new Set(ml.map(e=>e.date))].sort((a,b)=>b.localeCompare(a));
+ $('days').innerHTML=dates.length?dates.map(d=>{const s=sums(ml.filter(e=>e.date===d));return `<button class="day-row" data-day="${d}" style="width:100%;text-align:left"><div class="row"><strong>${d}</strong><span class="${s.income-s.expense>=0?'pos':'neg'}" style="font-weight:800">${s.income-s.expense<0?'−':''}${baht(Math.abs(s.income-s.expense))}</span></div><div class="row muted" style="margin-top:7px"><span>รับ ${baht(s.income)}</span><span>จ่าย ${baht(s.expense)}</span></div></button>`}).join(''):'<div class="empty">เดือนนี้ยังไม่มีรายการ</div>';
+}
+$('incomeBtn').addEventListener('click',()=>setKind('รายรับ'));$('expenseBtn').addEventListener('click',()=>setKind('รายจ่าย'));
+$('save').addEventListener('click',()=>{const amount=Number($('amount').value);if(!Number.isFinite(amount)||amount<=0){alert('กรุณากรอกจำนวนเงินที่มากกว่า 0');$('amount').focus();return;}if(!$('date').value){alert('กรุณาเลือกวันที่');return;}entries.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),date:$('date').value,kind,amount,note:$('note').value.trim()||kind,createdAt:Date.now()});$('amount').value='';$('note').value='';persist();render();});
+$('todayList').addEventListener('click',e=>{const b=e.target.closest('[data-delete]');if(!b)return;if(confirm('ต้องการลบรายการนี้หรือไม่?')){entries=entries.filter(x=>x.id!==b.dataset.delete);persist();render();}});
+$('days').addEventListener('click',e=>{const b=e.target.closest('[data-day]');if(b){$('date').value=b.dataset.day;render();window.scrollTo({top:0,behavior:'smooth'});}});
+$('date').addEventListener('change',render);$('month').addEventListener('change',render);$('opening').addEventListener('change',()=>{persist();render()});
+$('monthNow').addEventListener('click',()=>{$('month').value=monthISO();render()});
+$('export').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),opening:Number($('opening').value)||0,entries},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='baansabai-backup-'+todayISO()+'.json';a.click();URL.revokeObjectURL(a.href);});
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!Array.isArray(data.entries)||!confirm('นำเข้าข้อมูลแทนรายการปัจจุบันหรือไม่? แนะนำให้ส่งออกข้อมูลปัจจุบันก่อน'))return;entries=data.entries.filter(x=>x&&typeof x.date==='string'&&['รายรับ','รายจ่าย'].includes(x.kind)&&Number(x.amount)>0).map(x=>({...x,amount:Number(x.amount)}));$('opening').value=Number(data.opening)||0;persist();render();alert('นำเข้าข้อมูลแล้ว');}catch(err){alert('ไฟล์ไม่ถูกต้อง กรุณาเลือกไฟล์สำรอง JSON จากแอปนี้');}e.target.value='';});
+$('date').value=todayISO();$('month').value=monthISO();load();setKind('รายรับ');render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>
